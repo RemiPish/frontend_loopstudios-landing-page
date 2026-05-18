@@ -1,0 +1,577 @@
+$white: #ffffff;
+$black: #000000;
+$grey-200: #d8d8d8;
+$blue-100: #e5eaf1;
+$blue-50: #f6faff;
+$footer-a: hsl(228, 45%, 44%);
+$gradiant-bg: linear-gradient(
+  174deg,
+  rgba(0, 0, 0, 0) 0%,
+  rgba(0, 0, 0, 0.5) 60%
+);
+
+$desktop: 90rem;
+
+// ---------------- MIXINS ----------------
+
+@mixin desktop {
+  @media (min-width: $desktop) {
+    @content;
+  }
+}
+
+@mixin flex-column($gap: 0) {
+  display: flex;
+  flex-direction: column;
+  gap: $gap;
+}
+
+@mixin flex-row($gap: 0, $align: center) {
+  display: flex;
+  flex-direction: row;
+  align-items: $align;
+  gap: $gap;
+}
+
+@mixin flex-between($align: center) {
+  display: flex;
+  align-items: $align;
+  justify-content: space-between;
+}
+
+@mixin bg-cover($url) {
+  background-image: url($url);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+@mixin reset-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+@mixin josefin-uppercase {
+  font-family: "Josefin Sans", sans-serif;
+  text-transform: uppercase;
+  font-weight: 300;
+}
+
+@mixin animated-underline($color: $white) {
+  position: relative;
+  display: inline-block;
+
+  &::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -0.4em;
+
+    width: 100%;
+    height: 0.15em;
+
+    background-color: $color;
+
+    opacity: 0;
+    transform: scaleX(0);
+    transform-origin: center;
+
+    transition:
+      opacity 300ms ease,
+      transform 300ms ease;
+  }
+
+  &:hover::after,
+  &:focus-visible::after {
+    opacity: 1;
+    transform: scaleX(1);
+  }
+}
+
+// ---------------- RESET ----------------
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body,
+h1,
+h2,
+p,
+fieldset,
+input,
+figure,
+picture,
+button {
+  margin: 0;
+  padding: 0;
+  font-size: unset;
+  font-family: unset;
+}
+
+body {
+  font-family: "Alata", sans-serif;
+  min-height: 100vh;
+  margin: 0 auto;
+  background-color: $white;
+}
+
+a {
+  cursor: pointer;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  clip-path: inset(50%);
+
+  white-space: nowrap;
+  border: 0;
+}
+
+// ---------------- HEADER ----------------
+
+.site-header {
+  width: 100%;
+  min-height: 40rem;
+  height: auto;
+
+  @include bg-cover("/images/mobile/image-hero.jpg");
+
+  overflow: hidden;
+  padding: 2em;
+
+  &__top {
+    margin-block-start: 1rem;
+    @include flex-between;
+  }
+
+  &__logo,
+  &__menu-button {
+    height: fit-content;
+  }
+
+  &__menu-button {
+    background-color: transparent;
+    background-repeat: no-repeat;
+    border: none;
+    overflow: hidden;
+    outline: none;
+  }
+
+  &__title {
+    position: absolute;
+    top: 35%;
+
+    max-width: 80vw;
+    padding: 1.5em;
+
+    color: $white;
+    border: 3px solid $white;
+
+    font-family: "Josefin Sans", sans-serif;
+    font-size: clamp(1rem, 5vw, 4.5rem);
+
+    h1 {
+      text-transform: uppercase;
+      font-weight: 300;
+    }
+  }
+
+  @include desktop {
+    min-height: 40.625rem;
+    padding-inline: 10rem;
+
+    @include bg-cover("/images/desktop/image-hero.jpg");
+
+    &__title {
+      position: static;
+      margin-top: 8rem;
+      max-width: 40rem;
+      font-size: clamp(3rem, 5vw, 4.5rem);
+    }
+
+    &__menu-button {
+      display: none;
+    }
+  }
+}
+
+// ---------------- NAV ----------------
+
+.site-nav {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+
+  padding: 1.5rem;
+  background-color: $black;
+
+  @include flex-column(4rem);
+
+  &[hidden] {
+    display: none;
+  }
+
+  &__title {
+    @include flex-between;
+    width: 100%;
+  }
+
+  &__close {
+    display: block;
+    margin-left: auto;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  &__list {
+    @include reset-list;
+    @include flex-column(1.5rem);
+
+    a {
+      @include animated-underline($white);
+      @include josefin-uppercase;
+
+      text-decoration: none;
+      color: $white;
+      font-size: 1.5rem;
+    }
+  }
+
+  @include desktop {
+    &[hidden] {
+      display: flex;
+      inset: unset;
+      position: relative;
+      padding: unset;
+      align-self: center;
+      background: transparent;
+    }
+
+    &[hidden] &__close,
+    &__title {
+      display: none;
+    }
+
+    &__list {
+      flex-direction: row;
+      gap: 2rem;
+      margin: unset;
+    }
+  }
+}
+
+// ---------------- MAIN ----------------
+
+.homepage {
+  width: 100%;
+  max-width: 70rem;
+  margin-inline: auto;
+  padding: 2rem;
+
+  @include flex-column(1.5rem);
+
+  @include desktop {
+    padding-block: 8rem;
+    gap: 8rem;
+  }
+}
+
+// ---------------- HERO ARTICLE ----------------
+
+.hero-article {
+  @include flex-column(1.5rem);
+
+  img {
+    width: 100%;
+  }
+
+  &__text {
+    @include flex-column(1.5rem);
+
+    text-align: center;
+
+    p {
+      color: $grey-200;
+    }
+  }
+
+  @include desktop {
+    position: relative;
+
+    &__text {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+
+      max-width: 34rem;
+      padding: 5rem;
+
+      background-color: $white;
+      text-align: left;
+    }
+  }
+}
+
+.hero-article__text h2,
+#creation-articles-title {
+  @include josefin-uppercase;
+
+  font-size: 2.2rem;
+  margin: 1.5rem auto;
+}
+
+@include desktop {
+  #creation-articles-title {
+    margin: unset;
+  }
+}
+
+// ---------------- CREATION CARDS ----------------
+
+.creation-card {
+  position: relative;
+
+  display: flex;
+  align-items: flex-end;
+
+  min-height: 8rem;
+  padding: 1.25rem;
+
+  text-decoration: none;
+  color: $white;
+
+  background-size: cover;
+  background-position: center;
+
+  overflow: hidden;
+
+  &__title {
+    position: relative;
+    z-index: 1;
+
+    max-width: 7rem;
+
+    font-size: clamp(1.25rem, 4vw, 2rem);
+    text-transform: uppercase;
+  }
+
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+
+    background: $gradiant-bg;
+    transition: background 200ms ease;
+  }
+
+  &:hover,
+  &:focus-visible {
+    color: $black;
+  }
+
+  &:hover::before,
+  &:focus-visible::before {
+    background: rgb(255 255 255 / 0.5);
+  }
+
+  &--earth {
+    background-image: url("/images/mobile/image-deep-earth.jpg");
+  }
+
+  &--arcade {
+    background-image: url("/images/mobile/image-night-arcade.jpg");
+  }
+
+  &--fisheye {
+    background-image: url("/images/mobile/image-fisheye.jpg");
+  }
+
+  &--grid {
+    background-image: url("/images/mobile/image-grid.jpg");
+  }
+
+  &--soccer {
+    background-image: url("/images/mobile/image-soccer-team.jpg");
+  }
+
+  &--borealis {
+    background-image: url("/images/mobile/image-pocket-borealis.jpg");
+  }
+
+  &--above {
+    background-image: url("/images/mobile/image-from-above.jpg");
+  }
+
+  &--curiosity {
+    background-image: url("/images/mobile/image-curiosity.jpg");
+  }
+
+  @include desktop {
+    height: 23rem;
+
+    &--earth {
+      background-image: url("/images/desktop/image-deep-earth.jpg");
+    }
+
+    &--arcade {
+      background-image: url("/images/desktop/image-night-arcade.jpg");
+    }
+
+    &--fisheye {
+      background-image: url("/images/desktop/image-fisheye.jpg");
+    }
+
+    &--grid {
+      background-image: url("/images/desktop/image-grid.jpg");
+    }
+
+    &--soccer {
+      background-image: url("/images/desktop/image-soccer-team.jpg");
+    }
+
+    &--borealis {
+      background-image: url("/images/desktop/image-pocket-borealis.jpg");
+    }
+
+    &--above {
+      background-image: url("/images/desktop/image-from-above.jpg");
+    }
+
+    &--curiosity {
+      background-image: url("/images/desktop/image-curiosity.jpg");
+    }
+  }
+}
+
+// ---------------- CREATIONS SECTION ----------------
+
+.creation-articles {
+  align-items: center;
+
+  @include flex-column(1.5rem);
+
+  &__list {
+    @include reset-list;
+    @include flex-column(1.5rem);
+
+    width: 100%;
+  }
+
+  &__link {
+    align-self: center;
+
+    padding: 0.8em;
+    border: 2px solid $black;
+
+    color: $black;
+    text-align: center;
+    text-transform: uppercase;
+    text-decoration: none;
+    font-size: 1.3rem;
+    letter-spacing: 0.2rem;
+
+    &:focus-visible,
+    &:hover {
+      color: $grey-200;
+      background-color: $black;
+      border-color: $grey-200;
+      transition: all 0.5s ease;
+    }
+  }
+
+  @include desktop {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: center;
+    gap: 3rem;
+
+    &__list {
+      grid-column: 1 / -1;
+
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+    }
+
+    &__link {
+      grid-column: 2;
+      grid-row: 1;
+      justify-self: end;
+    }
+  }
+}
+
+// ---------------- FOOTER ----------------
+
+.site-footer {
+  padding: 1.5em;
+
+  background-color: $black;
+  color: $white;
+
+  align-items: center;
+
+  @include flex-column(1rem);
+
+  .footer-nav {
+    &__list {
+      @include reset-list;
+      @include flex-column(1.5rem);
+
+      width: 100%;
+      align-items: center;
+
+      a {
+        @include animated-underline($white);
+
+        text-decoration: none;
+        color: $white;
+      }
+    }
+  }
+
+  .social-links {
+    @include reset-list;
+    @include flex-row(1.5rem);
+
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  @include desktop {
+    flex-direction: row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+
+    .attribution {
+      flex: 1 1 100%;
+    }
+
+    .footer-nav__list {
+      flex-direction: row;
+    }
+  }
+}
+
+// ---------------- ATTRIBUTION ----------------
+
+.attribution {
+  font-size: 0.6875rem;
+  text-align: center;
+
+  a {
+    color: $footer-a;
+  }
+}
