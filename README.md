@@ -20,7 +20,7 @@ This is a solution to the [Loopstudios landing page challenge on Frontend Mentor
 
 ### Links
 
-Live Site URL: [Vercel](https://frontend-nft-preview-card-component-pearl.vercel.app/)
+Live Site URL: [Vercel](https://frontend-loopstudios-landing-page.vercel.app/)
 
 ## My process
 
